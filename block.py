@@ -27,6 +27,8 @@ class BlockManager():
         self.color = frame_block_dict['block_color']
         self.start_frame = frame_block_dict['frame_start']
         self.stop_frame = frame_block_dict['frame_stop']
+        self.total_block_frames = self.t_seconds * self.frame_manager.experiment.fps_record
+
         self.block_frame_counter = 0
 
         if self.block_type == 'condition':

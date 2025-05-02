@@ -19,7 +19,7 @@ class GPIOManager():
         except serial.SerialException as e:
             print(f"Error: {e}")
 
-    def turn_on_films(self):
+    def turn_off_films(self):
 
         if self.ser.is_open:
             print(f"Serial port {self.ser.name} is open")
@@ -29,7 +29,7 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
             data = ['2', '0', '0', '0', '0', '0', '0']
@@ -38,7 +38,7 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
             data = ['3', '0', '0', '0', '0', '0', '0']
@@ -47,7 +47,7 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
             data = ['4', '0', '0', '0', '0', '0', '0']
@@ -56,7 +56,7 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
             data = ['5', '0', '0', '0', '0', '0', '0']
@@ -65,7 +65,7 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
             data = ['6', '0', '0', '0', '0', '0', '0']
@@ -74,7 +74,7 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
             data = ['7', '0', '0', '0', '0', '0', '0']
@@ -83,7 +83,79 @@ class GPIOManager():
             self.ser.write(mydata)
             print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
-            print(f"Received: {ReceivedString}")
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+
+        else:
+            print("Serial port could not be opened")
+
+
+    def turn_on_films(self):
+
+        if self.ser.is_open:
+            print(f"Serial port {self.ser.name} is open")
+            data = ['1', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['2', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['3', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['4', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['5', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['6', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['7', '1', '1', '1', '1', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
 

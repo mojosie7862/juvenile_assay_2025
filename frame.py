@@ -63,8 +63,8 @@ class FrameManager():
 
                     self.frame_tput_ls.append(self.frame_t_put)
 
-                    if self.current_block_manager.block_frame_counter % self.experiment.track_frame_skip == 0:
-                        self.current_block_manager.track_record.track_frame(self.frame_img)
+                    # if self.current_block_manager.block_frame_counter % self.experiment.track_frame_skip == 0:
+                    #     self.current_block_manager.track_record.track_frame(self.frame_img)
 
                 self.current_block_manager.block_frame_counter+=1
                 # print('block_frame_counter', self.current_block_manager.block_frame_counter)
@@ -72,10 +72,8 @@ class FrameManager():
                 # send a conditional (although not actually conditional in beta with no live-tracking) block into stimulus administration
                 if self.current_block in self.experiment.track_blocks:
                     self.current_block_manager.gpio_record.turn_on_films()
-                    if self.current_block_manager.block_frame_counter
-
-
-
+                    if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames:
+                        self.current_block_manager.gpio_record.turn_off_films()
 
         return
 
@@ -87,12 +85,11 @@ class FrameManager():
             self.current_block = self.current_block_manager.index
             print('----- block index', self.current_block, '-----')
             self.current_block_manager.block_frame_counter = 0
-            total_block_frames = self.current_block_manager.t_seconds * self.experiment.fps_record
 
             while True:
 
                 # Move on to next block if all frames for this one are collected
-                if self.current_block_manager.block_frame_counter == total_block_frames:
+                if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames:
                     break
 
                 # Display stage color
