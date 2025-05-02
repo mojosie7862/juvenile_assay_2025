@@ -23,7 +23,6 @@ class FrameManager():
         self.recorded_frame_counter = 0
         self.processed_frame_ls = [0]
 
-
         self.frame_t_put = None
         self.frame_t_get = None
         self.frame_t_diff = None
@@ -53,13 +52,13 @@ class FrameManager():
                 cv2.waitKey(1)
                 self.processed_frame_counter += 1
                 self.processed_frame_ls.append(self.processed_frame_counter)
-                print('processed_frame_counter', self.processed_frame_counter)
+                # print('processed_frame_counter', self.processed_frame_counter)
 
                 # Start recording images
                 if self.current_block > 0:
                     self.experiment.video_out.write(self.frame_img)
                     self.recorded_frame_counter += 1
-                    print('recorded_frame_counter', self.recorded_frame_counter)
+                    # print('recorded_frame_counter', self.recorded_frame_counter)
 
                     self.frame_tput_ls.append(self.frame_t_put)
 
@@ -67,21 +66,23 @@ class FrameManager():
                         self.current_block_manager.track_record.track_frame(self.frame_img)
 
                 self.current_block_manager.block_frame_counter+=1
-                print('block_frame_counter', self.current_block_manager.block_frame_counter)
+                # print('block_frame_counter', self.current_block_manager.block_frame_counter)
 
-                # All blocks do background acquisition except the last (just tracking)
-                if self.current_block < 6:
-
+                # send block preceeding a tracked block into background acquisition
+                if self.current_block in self.experiment.bg_acq_blocks:
                     if self.current_block_manager.block_frame_counter % self.experiment.bg_frame_skip == 0:
-                        self.current_block_manager.track_record.background_acquisition(self.frame_img)
+                        # self.current_block_manager.track_record.background_acquisition(self.frame_img)
+
+                if self.current_block in self.experiment.track_blocks:
+                    if self.current_block_manager.block_frame_counter % self.experiment.track_frame_skip == 0:
+                        # self.current_block_manager.track_record.position_track(self.frame_img, send_gpio='social')
 
 
-                print()
 
         return
 
 
-    def block_sequence(self):
+    def block_sequencer(self):
 
         for block_index, self.current_block_manager in self.blocks.items():
 
