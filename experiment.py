@@ -96,6 +96,8 @@ class ExperimentManager():
         '''
 
         self.fps_record = fps_dict['fps_record']
+        self.bg_acq_blocks = [1,5]
+        self.track_blocks = [2,6]
 
         if 'fps_bg_acq' in fps_dict.keys():
             self.fps_bg_acq = fps_dict['fps_bg_acq']
@@ -227,8 +229,6 @@ class ExperimentManager():
 
             # Begin acquiring images
             cam.BeginAcquisition()
-
-            # print('Acquiring images...')
 
             # Retrieve images using image event handler
             self.wait_for_images()

@@ -129,7 +129,7 @@ def main():
     open_cam_th.daemon = True
     img_proc_th = threading.Thread(target=frame_record.image_processor)
     img_proc_th.daemon = True
-    block_seq_th = threading.Thread(target=frame_record.block_sequence)
+    block_seq_th = threading.Thread(target=frame_record.block_sequencer)
 
     open_cam_th.start()
     img_proc_th.start()

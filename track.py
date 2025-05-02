@@ -80,7 +80,7 @@ class TrackingManager():
             self.bg_frame_counter += 1
             tensor_img = np.copy(img)
             bg_img_init_tensor = torch.from_numpy(tensor_img[:, :])
-            print(self.bg_frame_counter, len(self.bgtot_init))
+            # print(self.bg_frame_counter, len(self.bgtot_init))
             self.bgtot_init[self.bg_frame_counter - 1][:, :] = bg_img_init_tensor
         else:
             return
@@ -161,6 +161,7 @@ class TrackingManager():
 
         props = regionprops(img_relabeled)
         total_obj = np.amax(img_relabeled)
+        # print(total_obj)
 
         for ind in range(0, total_obj):
 
@@ -200,9 +201,10 @@ class TrackingManager():
 
             # USING POSITION CATEGORY DICT, SEND GPIO COM_STR
             if send_gpio == 'social':
-                self.track_frame_com = self.block_manager.gpio_record.send_social_gpio_com(self.fish_pos_dict, self.fish_pos_cat_dict)
+                # self.track_frame_com = self.block_manager.gpio_record.send_social_gpio_com()
+                self.track_frame_com = self.block_manager.gpio_record.voltage_on()
             if send_gpio == 'shocks':
-                self.track_frame_com = self.block_manager.gpio_record.send_shock_gpio_com(self.fish_pos_dict, self.fish_pos_cat_dict)
+                self.track_frame_com = self.block_manager.gpio_record.send_shock_gpio_com()
 
             track_frame_data = [self.block_manager.current_block,
                                 self.frame_manager.recorded_frame_counter,
