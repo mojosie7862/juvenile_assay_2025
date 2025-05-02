@@ -70,8 +70,14 @@ class FrameManager():
                 # print('block_frame_counter', self.current_block_manager.block_frame_counter)
 
                 # send a conditional (although not actually conditional in beta with no live-tracking) block into stimulus administration
+                switch = False
                 if self.current_block in self.experiment.track_blocks:
-                    self.current_block_manager.gpio_record.turn_on_films()
+                    if not switch:
+                        self.current_block_manager.gpio_record.turn_on_films()
+                        switch = True
+                    else:
+                        continue
+
                     if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames:
                         self.current_block_manager.gpio_record.turn_off_films()
 
