@@ -9,9 +9,13 @@ class GPIOManager():
         self.fps_gpio = block_manager.frame_manager.experiment.fps_gpio
 
         self.lane_ls = ['1','2','3','4','5','6','7']
+        self.ser = None
+        self.gpio_switch = False
 
+
+
+    def open_serial(self):
         try:
-            # Configure the serial port
             self.ser = serial.Serial('COM5', 9600)  # Example for Linux
             time.sleep(0.01)
             ReceivedString = self.ser.readline()
@@ -19,15 +23,21 @@ class GPIOManager():
         except serial.SerialException as e:
             print(f"Error: {e}")
 
-    def turn_off_films(self):
 
+    def close_serial(self):
+        if self.ser.is_open:
+            self.ser.close()
+            print("Serial port closed")
+
+
+    def turn_off_films(self):
         if self.ser.is_open:
             print(f"Serial port {self.ser.name} is open")
             data = ['1', '0', '0', '0', '0', '0', '0']
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -36,7 +46,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -45,7 +55,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -54,7 +64,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -63,7 +73,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -72,7 +82,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -81,14 +91,14 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
             time.sleep(0.01)
 
         else:
-            print("Serial port could not be opened")
+            print("Serial port is not open")
 
 
     def turn_on_films(self):
@@ -99,7 +109,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -108,7 +118,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -117,7 +127,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -126,7 +136,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -135,7 +145,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -144,7 +154,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 
@@ -153,7 +163,7 @@ class GPIOManager():
             my_string = ','.join(data) + '\n'
             mydata = bytes(my_string, 'utf-8')
             self.ser.write(mydata)
-            print(f"Sent: {mydata}")
+            # print(f"Sent: {mydata}")
             ReceivedString = self.ser.readline()
             # print(f"Received: {ReceivedString}")
 

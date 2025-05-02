@@ -35,6 +35,7 @@ class FrameManager():
 
         self.hold_record = False
 
+
     def image_processor(self):
         global bg_init_done
         while self.experiment.continue_recording:
@@ -70,16 +71,18 @@ class FrameManager():
                 # print('block_frame_counter', self.current_block_manager.block_frame_counter)
 
                 # send a conditional (although not actually conditional in beta with no live-tracking) block into stimulus administration
-                switch = False
                 if self.current_block in self.experiment.track_blocks:
-                    if not switch:
+                    print(self.current_block_manager.gpio_record.gpio_switch, self.current_block_manager.block_frame_counter, self.current_block_manager.total_block_frames)
+                    if not self.current_block_manager.gpio_record.gpio_switch:
+                        self.current_block_manager.gpio_record.open_serial()
                         self.current_block_manager.gpio_record.turn_on_films()
-                        switch = True
-                    else:
-                        continue
-
-                    if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames:
-                        self.current_block_manager.gpio_record.turn_off_films()
+                        self.current_block_manager.gpio_record.gpio_switch = True
+                    print('block_frame_counter', self.current_block_manager.block_frame_counter)
+                    if self.current_block_manager.gpio_record.gpio_switch:
+                        print('switch on')
+                        if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames-1:
+                            self.current_block_manager.gpio_record.turn_off_films()
+                            self.current_block_manager.gpio_record.close_serial()
 
         return
 
