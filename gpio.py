@@ -9,106 +9,86 @@ class GPIOManager():
         self.fps_gpio = block_manager.frame_manager.experiment.fps_gpio
 
         self.lane_ls = ['1','2','3','4','5','6','7']
-        try:
-            self.serialcomm = serial.Serial('COM5', 9600)
-            self.serialcomm.timeout = 1
-            received_string = self.serialcomm.readline()
-            print(f"Received: {received_string}")
-        except serial.SerialException as e:
-            print(f"Error: {e}")
 
-    def open_smartfilm(self):
         try:
-            # Configure the serial port (adjust port name and baud rate as needed)
-            ser = serial.Serial('COM5', 9600)  # Example for Linux
-            # ttyUSBx format on Linux
-            # ser.bytesize = 8   # Number of data bits = 8
-            # ser.parity  ='N'   # No parity
-            # ser.stopbits = 1   # Number of Stop bits = 1
-            # ser.rtscts = True
-            # ser = serial.Serial('COM3', 9600)  # Example for Windows
-            time.sleep(1)  # Wait for 2 seconds
-            ReceivedString = ser.readline()
+            # Configure the serial port
+            self.ser = serial.Serial('COM5', 9600)  # Example for Linux
+            time.sleep(0.01)
+            ReceivedString = self.ser.readline()
             print(f"Received: {ReceivedString}")
-            # ser.timeout = 1
-            # Ensure the serial port is open
-            if ser.is_open:
-                print(f"Serial port {ser.name} is open")
-                data = ['1', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-                data = ['2', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-                data = ['3', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-                data = ['4', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-                data = ['5', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-                data = ['6', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-                data = ['7', '0', '0', '0', '0', '0', '0']
-                my_string = ','.join(data) + '\n'
-                mydata = bytes(my_string, 'utf-8')
-                ser.write(mydata)
-                print(f"Sent: {mydata}")
-                ReceivedString = ser.readline()
-                print(f"Received: {ReceivedString}")
-
-                time.sleep(0.01)
-
-            else:
-                print("Serial port could not be opened")
-
         except serial.SerialException as e:
             print(f"Error: {e}")
 
-        finally:
-            # Close the serial port
-            if ser.is_open:
-                ser.close()
-                print("Serial port closed")
+    def turn_on_films(self):
+
+        if self.ser.is_open:
+            print(f"Serial port {self.ser.name} is open")
+            data = ['1', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['2', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['3', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['4', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['5', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['6', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+            data = ['7', '0', '0', '0', '0', '0', '0']
+            my_string = ','.join(data) + '\n'
+            mydata = bytes(my_string, 'utf-8')
+            self.ser.write(mydata)
+            print(f"Sent: {mydata}")
+            ReceivedString = self.ser.readline()
+            print(f"Received: {ReceivedString}")
+
+            time.sleep(0.01)
+
+        else:
+            print("Serial port could not be opened")
 
     def close_smartfilm(self):
         global film_toggle

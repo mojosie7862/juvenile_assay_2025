@@ -30,7 +30,7 @@ class BlockManager():
         self.block_frame_counter = 0
 
         if self.block_type == 'condition':
-            self.track_record = track.TrackingManager(self)
+            # self.track_record = track.TrackingManager(self)
             self.gpio_record = gpio.GPIOManager(self)
 
         elif self.block_type == 'baseline':

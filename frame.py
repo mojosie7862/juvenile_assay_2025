@@ -14,6 +14,7 @@ class FrameManager():
         for block_index, frame_block_dict in frame_block_dicts.items():
             # print('block_index',block_index)
             # print(frame_block_dict)
+            # have this be the designation of background acquisition / tracked blocks for gamma version (live-tracking but no continuous tracking)
             self.blocks[block_index] = block.BlockManager(self, frame_block_dict)
 
         self.current_block = None
@@ -68,14 +69,11 @@ class FrameManager():
                 self.current_block_manager.block_frame_counter+=1
                 # print('block_frame_counter', self.current_block_manager.block_frame_counter)
 
-                # send block preceeding a tracked block into background acquisition
-                if self.current_block in self.experiment.bg_acq_blocks:
-                    if self.current_block_manager.block_frame_counter % self.experiment.bg_frame_skip == 0:
-                        # self.current_block_manager.track_record.background_acquisition(self.frame_img)
-
+                # send a conditional (although not actually conditional in beta with no live-tracking) block into stimulus administration
                 if self.current_block in self.experiment.track_blocks:
-                    if self.current_block_manager.block_frame_counter % self.experiment.track_frame_skip == 0:
-                        # self.current_block_manager.track_record.position_track(self.frame_img, send_gpio='social')
+                    self.current_block_manager.gpio_record.turn_on_films()
+                    if self.current_block_manager.block_frame_counter
+
 
 
 
