@@ -97,7 +97,7 @@ try:
     # Ensure the serial port is open
     if ser.is_open:
         print(f"Serial port {ser.name} is open")
-        data = ['1', '0', '0', '0', '0', '0', '0']
+        data = ['1', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
@@ -105,8 +105,8 @@ try:
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
 
-        time.sleep(0.01)
-        data = ['2', '0', '0', '0', '0', '0', '0']
+        time.sleep(0.02)
+        data = ['2', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
@@ -114,8 +114,8 @@ try:
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
 
-        time.sleep(0.01)
-        data = ['3', '0', '0', '0', '0', '0', '0']
+        time.sleep(0.02)
+        data = ['3', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
@@ -123,8 +123,8 @@ try:
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
 
-        time.sleep(0.01)
-        data = ['4', '0', '0', '0', '0', '0', '0']
+        time.sleep(0.02)
+        data = ['4', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
@@ -132,8 +132,8 @@ try:
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
 
-        time.sleep(0.01)
-        data = ['5', '0', '0', '0', '0', '0', '0']
+        time.sleep(0.02)
+        data = ['5', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
@@ -141,8 +141,8 @@ try:
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
 
-        time.sleep(0.01)
-        data = ['6', '0', '0', '0', '0', '0', '0']
+        time.sleep(0.02)
+        data = ['6', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
@@ -150,14 +150,25 @@ try:
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
 
-        time.sleep(0.01)
-        data = ['7', '0', '0', '0', '0', '0', '0']
+        time.sleep(0.02)
+        data = ['7', '0', '0', '0', '0', '1', '1']
         my_string = ','.join(data) + '\n'
         mydata = bytes(my_string, 'utf-8')
         ser.write(mydata)
         print(f"Sent: {mydata}")
         ReceivedString = ser.readline()
         print(f"Received: {ReceivedString}")
+        #----------------------------------------------
+        time.sleep(0.02)
+        # data = ['7', '0', '0', '0', '0', '1', '1']
+        # my_string = ','.join(data) + '\n'
+        # mydata = bytes(my_string, 'utf-8')
+        # ser.write(mydata)
+        # print(f"Sent: {mydata}")
+        # ReceivedString = ser.readline()
+        # print(f"Received: {ReceivedString}")
+
+
         # Data to be sent (must be bytes)
         # data_to_send = b'3,1,0,1,0,0,0,0\n'
         # # # print(type(data_to_send))
@@ -166,7 +177,8 @@ try:
         # ser.write(data_to_send)
         # # ser.write(('2,1,1,1,1,0,0\n').("ascii"))
         # print(f"Sent: {data_to_send}")
-        time.sleep(10)
+        # time.sleep(10)
+
 
     else:
         print("Serial port could not be opened")
