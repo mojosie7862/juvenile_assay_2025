@@ -65,13 +65,13 @@ def main():
                 'fps_gpio': 5}
 
     # Time of each block (s)
-    acclimate_t = 5  # white screen, no recording
-    bg_acq_t1 = 5  # block 1
-    condition_t1 = 5  # block 2
-    post_condition1 = 5  # block 3
-    by_baseline_t = 5  # block 4
-    bg_acq_t2 = 5  # block 5
-    condition_t2 = 5  # block 6
+    acclimate_t = 2  # white screen, no recording
+    bg_acq_t1 = 2  # block 1
+    condition_t1 = 10  # block 2
+    post_condition1 = 2  # block 3
+    by_baseline_t = 2  # block 4
+    bg_acq_t2 = 2  # block 5
+    condition_t2 = 10  # block 6
 
     # Categorize block types (acclimate / baseline / condition) and block colors (white_ar / red_grey_ar / blue_yellow_ar)
     exp_block_types = ['acclimate', 'baseline', 'condition', 'baseline', 'baseline', 'baseline', 'condition']

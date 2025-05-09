@@ -75,7 +75,7 @@ class TrackingManager():
         :param img:
         :return:
         '''
-        while self.bg_frame_counter > len(self.bgtot_init): continue
+        # while self.bg_frame_counter > len(self.bgtot_init): continue
         if img is not None:
             self.bg_frame_counter += 1
             tensor_img = np.copy(img)
