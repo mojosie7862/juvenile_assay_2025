@@ -5,19 +5,15 @@ import queue
 
 class FrameManager():
 
-    def __init__(self, experiment, frame_block_dicts):
+    def __init__(self, experiment, frame_block_dicts, total_recorded_frames):
         self.experiment = experiment
         self.frame_img = None
 
         # Create dictionary of information needed for each block in the experiment
         self.blocks = {}
         for block_index, frame_block_dict in frame_block_dicts.items():
-            # print('block_index',block_index)
-            # print(frame_block_dict)
             # have this be the designation of background acquisition / tracked blocks for gamma version (live-tracking but no continuous tracking)
             self.blocks[block_index] = block.BlockManager(self, frame_block_dict)
-
-        print(self.blocks)
 
         self.current_block = None
         self.current_block_manager = None
@@ -36,7 +32,7 @@ class FrameManager():
         self.frame_tdiff_ls = []
 
         self.hold_record = True
-        self.total_recorded_frames = 0
+        self.total_recorded_frames = total_recorded_frames
 
 
     def image_processor(self):
@@ -73,39 +69,26 @@ class FrameManager():
                     #     self.current_block_manager.track_record.track_frame(self.frame_img)
 
                 self.current_block_manager.block_frame_counter+=1
-                # print('block_frame_counter', self.current_block_manager.block_frame_counter)
+                # print('block', self.current_block, 'block_frame_counter', self.current_block_manager.block_frame_counter)
                 # print('total_recorded_frames', self.total_recorded_frames) # stuck at 200 - not expected, look at this
 
 
-            # if not self.hold_record:
-            #     self.experiment.continue_recording = False
-
             # send a conditional (although not actually conditional in beta with no live-tracking) block into stimulus administration
-            if self.current_block in self.experiment.track_blocks:
-                if self.current_block_manager.block_frame_counter == self.current_block_manager.start_frame:
+            if self.current_block in self.experiment.social_block:
+                if self.processed_frame_counter == self.current_block_manager.start_frame:
                     if not self.current_block_manager.gpio_record.films_on:
                         self.current_block_manager.gpio_record.turn_on_films()
-                        print('films on at frame', self.recorded_frame_counter)
-                if self.current_block_manager.block_frame_counter == self.current_block_manager.stop_frame:
+                if self.processed_frame_counter == self.current_block_manager.stop_frame:
                     if self.current_block_manager.gpio_record.films_on:
                         self.current_block_manager.gpio_record.turn_off_films()
-                        print('films off at frame', self.recorded_frame_counter)
 
-
-                    # if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames+1: #test this +1... otherwise might need separate thread, or something blocking onset of new block while films are closing
-                    #     self.current_block_manager.gpio_record.turn_off_films()
-                    #     print('films off at frame', self.recorded_frame_counter)
-                        # print(self.current_block_manager.index, self.current_block_manager.block_event_status)
                         self.current_block_manager.gpio_record.close_serial()
                         self.current_block_manager.block_event_status = 'finished'
 
-            if self.recorded_frame_counter > 37000:
+            if self.recorded_frame_counter > self.total_recorded_frames:
                 self.experiment.continue_recording = False
-                print("ending experiment at frame", self.recorded_frame_counter)
 
                 return
-
-        return
 
 
     def block_sequencer(self):
@@ -116,18 +99,15 @@ class FrameManager():
             print('----- block index', self.current_block, '-----')
             self.current_block_manager.block_frame_counter = 0
 
-            if block_index > 0:
-                self.total_recorded_frames += self.current_block_manager.total_block_frames
-
             while True:
 
                 # Move on to next block if all frames for this one are collected and gpio has executed
                 if self.current_block_manager.block_frame_counter == self.current_block_manager.total_block_frames:
-                    if self.current_block in self.experiment.track_blocks:
-                        if self.current_block_manager.gpio_record.gpio_wait: continue
+                    if self.current_block in self.experiment.social_block:
+                        if self.current_block_manager.gpio_record.gpio_hold: continue
                     break
 
-                if self.recorded_frame_counter > 37000:
+                if self.recorded_frame_counter > self.total_recorded_frames:
                     return
 
                 # Display stage color
@@ -136,7 +116,7 @@ class FrameManager():
                 cv2.moveWindow('stage', 1920, 0)
 
         self.hold_record = False
-        print('total frames',self.total_recorded_frames)
+
         return
 
 

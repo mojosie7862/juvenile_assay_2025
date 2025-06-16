@@ -13,7 +13,7 @@ class GPIOManager():
         self.gpio_switch = False
         if not self.gpio_switch:
             self.open_serial()
-        self.gpio_wait = True
+        self.gpio_hold = True
         self.films_on = False
 
 
@@ -31,7 +31,7 @@ class GPIOManager():
     def close_serial(self):
         if self.ser.is_open:
             self.ser.close()
-        self.gpio_wait = False
+        self.gpio_hold = False
         return
 
 
@@ -47,8 +47,7 @@ class GPIOManager():
                 my_string = ','.join(data) + '\n'
                 mydata = bytes(my_string, 'utf-8')
                 self.ser.write(mydata)
-                ReceivedString = self.ser.readline()
-                time.sleep(0.02)
+                # ReceivedString = self.ser.readline()
 
             self.films_on = False
 
@@ -69,8 +68,7 @@ class GPIOManager():
                 my_string = ','.join(data) + '\n'
                 mydata = bytes(my_string, 'utf-8')
                 self.ser.write(mydata)
-                ReceivedString = self.ser.readline()
-                time.sleep(0.02)
+                # ReceivedString = self.ser.readline()
 
             self.films_on = True
 

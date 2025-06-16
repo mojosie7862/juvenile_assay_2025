@@ -28,21 +28,13 @@ import gpio
 end_toggle = 1
 
 def main():
-    exp_name = 'S5357+S5361_TLF_DOB250425'
+    exp_name = 'demo'
 
     exp_time = str(datetime.datetime.now().strftime('%Y%m%d_%H%M'))
     experiment_id = exp_time + "_" + exp_name
 
     experiment_dir = os.getcwd() + '/' + experiment_id + '_data/'
-    # tracked_img_dir = [os.getcwd() + '/' + experiment_id + 'soc_cond_TrackedImages/',
-    #                    os.getcwd() + '/' + experiment_id + 'socBY_cond_TrackedImages/']
-
-    # tracking_transcript_fn = experiment_id + '_tracking' + '.csv'
-    # gpio_transcript_fn = experiment_id + '_gpio' + '.csv'
     param_transcript_fn = experiment_id + '_params' + '.txt'
-
-    # os.makedirs(os.path.dirname(tracked_img_dir[0]), exist_ok=True)
-    # os.makedirs(os.path.dirname(tracked_img_dir[1]), exist_ok=True)
     os.makedirs(os.path.dirname(experiment_dir), exist_ok=True)
 
     # Set stage color arrays
@@ -67,16 +59,12 @@ def main():
                 'fps_track': 5,
                 'fps_gpio': 5}
 
-    num_of_blocks = 4
+    num_of_blocks = 3
 
     # Time of each block (s)
-    acclimate_t = 10  # white screen, no recording
-    bg_acq_t1 = 10  # block 1
-    condition_t1 = 10  # block 2
-    # post_condition1 = 10  # block 3
-    # by_baseline_t = 0  # block 4
-    # bg_acq_t2 = 0  # block 5
-    # condition_t2 = 0  # block 6
+    acclimate_t = 3  # white screen, no recording
+    bg_acq_t1 = 3  # block 1
+    condition_t1 = 3  # block 2
 
     # Categorize block types (acclimate / baseline / condition) and block colors (black_ar / red_grey_ar / blue_yellow_ar)
     exp_block_types = ['acclimate', 'baseline', 'condition']
@@ -91,7 +79,7 @@ def main():
 
     print('total frames to be recorded:', total_recorded_frames)
 
-    exp_blocks = list(range(num_of_blocks))
+    exp_blocks = list(range(num_of_blocks))      # list of total blocks, 0 indexed.
     frame_block_info = {}
     for b in exp_blocks:
         frame_block_dict = {}
@@ -107,45 +95,35 @@ def main():
     time_seq_blocks = [sum(t_second_blocks[:i + 1]) for i in range(len(t_second_blocks))]
     time_now = datetime.datetime.now()
     print('Experiment ID:', experiment_id)
-    print('Block start times:')
-    print('Block 1 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[0]))[11:19])
-    print('Block 2 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[1]))[11:19])
-    # print('Block 3 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[2]))[11:19])
-    # print('Block 4 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[3]))[11:19])
-    # print('Block 5 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[4]))[11:19])
-    # print('Block 6 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[5]))[11:19])
+    print('Block times:')
+    print('Block 0 (acclimation) -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[0]))[11:19])
+    print('Block 1 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[1]))[11:19])
+    print('Block 2 -', str(time_now + datetime.timedelta(seconds=time_seq_blocks[2]))[11:19])
 
     param_transcript_f = open(param_transcript_fn, 'w')
     param_transcript_f.writelines(['start: ', str(exp_time), '\n',
                                    'acclimation: ', str(acclimate_t), ' s\n',
                                    'bg_acq_t1: ', str(bg_acq_t1), ' s\n',
                                    'condition_t1: ', str(condition_t1), ' s\n'])
-                                   # 'post_condition1: ', str(post_condition1), ' s\n',
-                                   # 'by_baseline_t: ', str(by_baseline_t), ' s\n',
-                                   # 'bg_acq_t2: ', str(bg_acq_t2), ' s\n',
-                                   # 'condition_t2: ', str(condition_t2), ' s\n\n'])
     param_transcript_f.close()
 
     ts_start = time.time()
 
     # Initiate record objects
     experiment_record = experiment.ExperimentManager(experiment_id, fps_dict)
-    frame_record = frame.FrameManager(experiment_record, frame_block_info)
+    frame_record = frame.FrameManager(experiment_record, frame_block_info, total_recorded_frames)
 
     # Start acquiring images through the image handler queue
     open_cam_th = threading.Thread(target=experiment_record.open_camera)
     open_cam_th.daemon = True
-    img_proc_th = threading.Thread(target=frame_record.image_processor)
-    img_proc_th.daemon = True
-    block_seq_th = threading.Thread(target=frame_record.block_sequencer)
-
     open_cam_th.start()
+
+    img_proc_th = threading.Thread(target=frame_record.image_processor)
+    block_seq_th = threading.Thread(target=frame_record.block_sequencer)
     img_proc_th.start()
     block_seq_th.start()
-    open_cam_th.join()
     img_proc_th.join()
     block_seq_th.join()
-
 
     ts_stop = time.time()
 
@@ -157,16 +135,13 @@ def main():
 
     print("Moving data to experiment dir")
 
-    # shutil.move(source_dir + '/' + tracking_transcript_fn, experiment_dir + tracking_transcript_fn)
-    # shutil.move(source_dir + '/' + gpio_transcript_fn, experiment_dir + gpio_transcript_fn)
     shutil.move(source_dir + '/' + param_transcript_fn, experiment_dir + param_transcript_fn)
-    # shutil.move(source_dir + '/' + 'background_block_2.jpg', experiment_dir + 'background_block_2.jpg')
-    # shutil.move(source_dir + '/' + 'background_block_5.jpg', experiment_dir + 'background_block_5.jpg')
-    # shutil.move(tracked_img_dir[0], experiment_dir)
-    # shutil.move(tracked_img_dir[1], experiment_dir)
+    shutil.move(source_dir + '/' + experiment_id+'.avi', experiment_dir + experiment_id+'.avi')
 
     print("Stopped Recording, exiting program")
     cv2.destroyAllWindows()
+    # global end_toggle
+    # end_toggle *= -1
     sys.exit(0)
 
 

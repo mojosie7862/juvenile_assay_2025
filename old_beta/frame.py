@@ -1,7 +1,7 @@
 import time
 import cv2
 import block
-import queue
+
 
 class FrameManager():
 

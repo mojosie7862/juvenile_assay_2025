@@ -1,29 +1,13 @@
-from numpy.lib.utils import source
-from scipy.special import y0_zeros
-from skimage.measure import label, regionprops
-from skimage.morphology import remove_small_objects
 import numpy as np
-import win32gui
 import sys
 import time
 import threading
-import multiprocessing
 import datetime
 import cv2
-import queue
-import serial
 import tkinter
 import os
-import pandas as pd
-import torch
-import PySpin  # import torch before pyspin or dependencies break
-import shutil
-import concurrent.futures
 import experiment
 import frame
-import block
-import track
-import gpio
 
 end_toggle = 1
 

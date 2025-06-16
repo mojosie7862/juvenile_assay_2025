@@ -96,10 +96,8 @@ class ExperimentManager():
         '''
 
         self.fps_record = fps_dict['fps_record']
-        self.bg_acq_blocks = [1,5]                  # need a better method for this
-        self.track_blocks = [2,6]                   # need a better method for this
+        self.social_block = [2]
         self.total_recorded_frames = None
-        # print(fps_dict)
 
         if 'fps_bg_acq' in fps_dict.keys():
             self.fps_bg_acq = fps_dict['fps_bg_acq']
@@ -262,7 +260,7 @@ class ExperimentManager():
             #  *** NOTES ***
             #  The class has been constructed to accept a camera pointer in order
             #  to allow the saving of images with the device serial number.
-            # image_event_handler = ImageEventHandler(cam, self.img_q)
+            #  image_event_handler = ImageEventHandler(cam, self.img_q)
             #  Register image event handler
             #
             #  *** NOTES ***
